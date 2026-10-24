@@ -1,5 +1,5 @@
 {
-  "name": "launchbar",
+  "name": "miclux",
   "description": "Launchbar: command buttons above the Claude Code prompt.",
   "owner": { "name": "miclux", "url": "https://github.com/miclux" },
   "plugins": [
