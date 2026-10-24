@@ -180,7 +180,7 @@ async function draw($: EngineInterface, e: any, next: (x: any) => Promise<any>) 
       // The gradient art as an absolute background layer over the whole frame; it is the FIRST child so the buttons paint over it.
       const art = Svg ? (
         <Box key={`art-${p.id}`} position="absolute" top={0} bottom={0} left={0} right={0} overflow="hidden" flexDirection="row" justifyContent="flex-end" alignItems="center">
-          <Svg source={ART_SVG} alt="Bottom Panel art" width={1100} height={90} />
+          <Svg source={ART_SVG} alt="Launchbar art" width={1100} height={90} />
         </Box>
       ) : null
 

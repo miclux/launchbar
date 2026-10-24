@@ -27,8 +27,5 @@ A Claude Code mod that draws up to two button panels above the prompt; a button 
 - Desktop app loading: `CLAUDE_CODE_PLUGIN_DIRS` and marketplaces did not show the panel there; only `dev-mods/<session-id>/<mod>/` with hot reloading confirmed works, per session.
 
 ## Known limits
-- Windows and PowerShell only. Not yet verified in a real Desktop session after the rename and the reveal button; tests were rewritten without the original Yoshi cases and not yet run.
+- Windows and PowerShell only. Not yet verified in a real Desktop session; the tests have not been run yet.
 - Whether the effortless bar sits under the panel depends on hook order.
-
-## History
-- Started as a private `yoshi-panel` (two fixed Yoshi buttons), became `bottom-panel` (two scoped panels), renamed `launchbar` and made generic (Yoshi buttons, Flutter path and repo detection removed) for the public release on 2026-10-24.
