@@ -19,12 +19,11 @@ test('the global panel shows everywhere', async ($, on) => {
   expect(await ui.find({ key: 'panel-main' })).toBeDefined()
 })
 
-test('a local panel starts hidden in a project and is offered through the reveal button', async ($, on) => {
+test('a local panel shows in a project', async ($, on) => {
   host(on, 'C:\work\app', true)
   await ($ as any).store.set('panels', [{ id: 'main', scope: 'local' }])
   const ui = await ($ as any).ui.mount({ plugin: 'launchbar', surface: 'desktop', component: 'AbovePrompt', props: PROPS })
-  expect(await ui.find({ key: 'panel-main' })).toBeUndefined()
-  expect(await ui.find({ key: 'reveal' })).toBeDefined()
+  expect(await ui.find({ key: 'panel-main' })).toBeDefined()
 })
 
 test('a local panel is hidden outside a project', async ($, on) => {
@@ -32,5 +31,4 @@ test('a local panel is hidden outside a project', async ($, on) => {
   await ($ as any).store.set('panels', [{ id: 'main', scope: 'local' }])
   const ui = await ($ as any).ui.mount({ plugin: 'launchbar', surface: 'desktop', component: 'AbovePrompt', props: PROPS })
   expect(await ui.find({ key: 'panel-main' })).toBeUndefined()
-  expect(await ui.find({ key: 'reveal' })).toBeUndefined()
 })

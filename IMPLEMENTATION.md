@@ -4,7 +4,7 @@
 A Claude Code mod that draws up to two button panels above the prompt; a button starts a user-defined command.
 - A panel is **global** (every session, one shared button list) or **local** (shown only in a project, one list per project).
 - A project is a folder with `.git` (directory or worktree file) or a `.launchbar` marker file in the session root.
-- A new session shows only the global panel; local panels start hidden and are revealed by a slim button.
+- Global panels are always shown; a local panel is shown in a project and is always drawn above the global one (no collapse/reveal button).
 - Published as one GitHub repo that is marketplace and plugin at once (`miclux/launchbar`).
 
 ## Files
@@ -13,11 +13,11 @@ A Claude Code mod that draws up to two button panels above the prompt; a button 
 
 ## Behaviour
 - `ui.render` on `AbovePrompt`. `inspect($)` reads `$.session.root()` and probes `.git` / `.launchbar` through PowerShell (cached per folder).
-- Survey in the slot, or nothing to show: `next(e)`. Otherwise a column with the panels, the reveal button and `await next(e)` below.
+- Survey in the slot, or nothing to show: `next(e)`. Otherwise a column with the panels, `await next(e)` below.
 - Store key `panels` = `[{ id, scope }]`, max 2, default `[{ id: 'main', scope: 'global' }]`. Button lists: `buttons:global:<id>` or `buttons:local:<id>:<root>`; switching the scope keeps both lists.
-- State atoms: `buttons` (lists being edited), `editing` (panel id), `confirm` (`<panel>|<button>` or `panel|<panel>`), `draft`, `revealed` (per session, default false).
+- State atoms: `buttons` (lists being edited), `editing` (panel id), `confirm` (`<panel>|<button>` or `panel|<panel>`), `draft`.
 - Buttons run `powershell -NoProfile -Command <cmd>` via `Start-Process` in the project folder through `$.process.run`, so the child outlives the call; a toast reports start or error.
-- Gear: edit mode with `+` (name, then command), `−` with inline confirm, scope switch "Global"/"Lokal", "+ Panel", "Panel −"; the check mark saves. A new panel is put first, so it appears above the existing one.
+- Gear: edit mode with `+` (name, then command), `−` with inline confirm, scope switch "Global"/"Lokal", "+ Panel", "Panel −"; the check mark saves.
 - Look: ground `#141416`, round border `#2a2a2f`, static gradient from the right, one row per panel.
 
 ## Stumbling blocks

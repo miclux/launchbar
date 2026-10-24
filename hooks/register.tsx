@@ -16,8 +16,6 @@ const DEFAULT_PANELS: PanelCfg[] = [{ id: 'main', scope: 'global' }]
 const buttonsAtom = atom({ plugin: 'launchbar', key: 'buttons' } as const, null as Record<string, PanelButton[]> | null)
 const editingAtom = atom({ plugin: 'launchbar', key: 'editing' } as const, null as string | null)
 const confirmAtom = atom({ plugin: 'launchbar', key: 'confirm' } as const, null as string | null)
-// Local panels stay hidden at the start of a session; this flag (per session, in memory) reveals them.
-const revealedAtom = atom({ plugin: 'launchbar', key: 'revealed' } as const, false)
 const draftAtom = atom({ plugin: 'launchbar', key: 'draft' } as const, null as Draft)
 
 
@@ -54,10 +52,9 @@ async function draw($: EngineInterface, e: any, next: (x: any) => Promise<any>) 
 
     const storedPanels = (await $.store.get('panels')) as PanelCfg[] | undefined
     const panels = storedPanels && storedPanels.length ? storedPanels : DEFAULT_PANELS
-    const revealed = await read($, revealedAtom)
-    const localHere = panels.filter(p => p.scope === 'local' && isProject)
-    const visible = panels.filter(p => p.scope === 'global' || (isProject && revealed))
-    if (!visible.length && !localHere.length) return next(e)
+    // Local panels above, global panels below.
+    const visible = [...panels.filter(p => p.scope === 'local' && isProject), ...panels.filter(p => p.scope === 'global')]
+    if (!visible.length) return next(e)
 
     const { Box, Button, Input } = $.ui.resolve(e)
     const r = ps(root)
@@ -120,7 +117,7 @@ async function draw($: EngineInterface, e: any, next: (x: any) => Promise<any>) 
       }
       const addPanel = async () => {
         const id = panels.some(x => x.id === 'second') ? `second-${await $.clock.now()}` : 'second'
-        await savePanels([{ id, scope: 'local' }, ...panels])
+        await savePanels([...panels, { id, scope: 'local' }])
         $.ui.toast('Zweites Panel angelegt (lokal)')
       }
       const removePanel = async () => {
@@ -205,19 +202,11 @@ async function draw($: EngineInterface, e: any, next: (x: any) => Promise<any>) 
     const rendered = []
     for (const p of visible) rendered.push(await renderPanel(p))
 
-    // Initially only the global panels show; a slim button reveals (or hides again) the project panels.
-    const toggle = localHere.length ? (
-      <Box key="reveal-box" flexDirection="row">
-        <Button key="reveal" label={revealed ? '▾ Projekt-Panel' : '▸ Projekt-Panel'} onPress={() => update($, revealedAtom, v => !v)} />
-      </Box>
-    ) : null
-
     // Stacked over whatever the plugins beneath draw (the effortless bar), or alone when they draw nothing.
     const below = await next(e)
     return (
       <Box key="launchbar-stack" flexDirection="column">
         {rendered}
-        {toggle}
         {below}
       </Box>
     )

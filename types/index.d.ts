@@ -9,8 +9,6 @@ declare module 'claude-code' {
       // Id of the panel being edited, or null.
       editing: string | null
       draft: Draft
-      // Local panels are shown only after the user revealed them in this session.
-      revealed: boolean
       // "<panel id>|<button id>" of the button waiting for remove confirmation, or "panel|<panel id>" for a panel.
       confirm: string | null
     }
