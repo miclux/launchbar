@@ -1,0 +1,10 @@
+{
+  "name": "launchbar",
+  "version": "0.3.0",
+  "description": "Up to two button panels above the Claude Code prompt that start your own commands: a global one and one bound to the project.",
+  "author": { "name": "miclux", "url": "https://github.com/miclux" },
+  "homepage": "https://github.com/miclux/launchbar",
+  "repository": "https://github.com/miclux/launchbar",
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

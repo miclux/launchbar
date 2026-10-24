@@ -1,0 +1,12 @@
+{
+  "name": "launchbar",
+  "description": "Launchbar: command buttons above the Claude Code prompt.",
+  "owner": { "name": "miclux", "url": "https://github.com/miclux" },
+  "plugins": [
+    {
+      "name": "launchbar",
+      "description": "Up to two button panels above the prompt (global and per project) that start your own commands.",
+      "source": "./"
+    }
+  ]
+}
