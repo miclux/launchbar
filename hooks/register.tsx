@@ -120,7 +120,7 @@ async function draw($: EngineInterface, e: any, next: (x: any) => Promise<any>) 
       }
       const addPanel = async () => {
         const id = panels.some(x => x.id === 'second') ? `second-${await $.clock.now()}` : 'second'
-        await savePanels([...panels, { id, scope: 'local' }])
+        await savePanels([{ id, scope: 'local' }, ...panels])
         $.ui.toast('Zweites Panel angelegt (lokal)')
       }
       const removePanel = async () => {

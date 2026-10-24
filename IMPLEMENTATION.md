@@ -17,7 +17,7 @@ A Claude Code mod that draws up to two button panels above the prompt; a button 
 - Store key `panels` = `[{ id, scope }]`, max 2, default `[{ id: 'main', scope: 'global' }]`. Button lists: `buttons:global:<id>` or `buttons:local:<id>:<root>`; switching the scope keeps both lists.
 - State atoms: `buttons` (lists being edited), `editing` (panel id), `confirm` (`<panel>|<button>` or `panel|<panel>`), `draft`, `revealed` (per session, default false).
 - Buttons run `powershell -NoProfile -Command <cmd>` via `Start-Process` in the project folder through `$.process.run`, so the child outlives the call; a toast reports start or error.
-- Gear: edit mode with `+` (name, then command), `−` with inline confirm, scope switch "Global"/"Lokal", "+ Panel", "Panel −"; the check mark saves.
+- Gear: edit mode with `+` (name, then command), `−` with inline confirm, scope switch "Global"/"Lokal", "+ Panel", "Panel −"; the check mark saves. A new panel is put first, so it appears above the existing one.
 - Look: ground `#141416`, round border `#2a2a2f`, static gradient from the right, one row per panel.
 
 ## Stumbling blocks
