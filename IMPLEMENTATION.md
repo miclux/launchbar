@@ -8,7 +8,7 @@ A Claude Code mod that draws up to two button panels above the prompt; a button 
 - Published as one GitHub repo that is marketplace and plugin at once (`miclux/launchbar`).
 
 ## Files
-- `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` (plugin source `./`), `hooks/hooks.json` (one module).
+- `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` (plugin source `./`), `hooks/hooks.json` (one module), `hooks/session-copy.json` (classic hooks, named in `plugin.json` under `hooks`), `hooks/install-mod.cjs`.
 - `hooks/register.tsx`: the mod. `hooks/art.ts`: static gradient (`ART_SVG`). `hooks/register.test.ts`: tests. `types/index.d.ts`: `$.state` contract.
 
 ## Behaviour
@@ -19,6 +19,12 @@ A Claude Code mod that draws up to two button panels above the prompt; a button 
 - Buttons run `powershell -NoProfile -Command <cmd>` via `Start-Process` in the project folder through `$.process.run`, so the child outlives the call; a toast reports start or error.
 - Gear: edit mode with `+` (name, then command), `−` with inline confirm, scope switch "Global"/"Lokal", "+ Panel", "Panel −"; the check mark saves.
 - Look: ground `#141416`, round border `#2a2a2f`, static gradient from the right, one row per panel.
+
+## Auto-install into each session (0.3.6)
+- The Desktop app loads mods only from `~/.claude/dev-mods/<session-id>/<mod>/`, a folder that is new for every session, so an installed plugin never showed the bar.
+- `hooks/session-copy.json` runs `hooks/install-mod.cjs` on `SessionStart` and `UserPromptSubmit`. The script reads `session_id` from stdin and copies the plugin root (`CLAUDE_PLUGIN_ROOT`, without `.git`, `.in_use`, `.orphaned_at`, `node_modules`) to `dev-mods/<session-id>/launchbar`, unless `hooks/hooks.json` is already there. The prompt hook covers sessions that were switched to or resumed without a `SessionStart`.
+- Errors go to `~/.claude/hooks/launchbar-install.log`. The user still confirms "Enable hot reloading for this session" once per session.
+- Not verified: that the Desktop app fires `SessionStart` for a plain switch, and that a plugin `hooks` entry in `plugin.json` is read next to the `modules` file.
 
 ## Stumbling blocks
 - `claude` is not always on PATH: run `claude plugin validate|test` from the Desktop app's `claude.exe`.

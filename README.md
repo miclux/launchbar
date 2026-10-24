@@ -13,7 +13,7 @@ Command buttons above the Claude Code prompt. Click a button, your command start
 /plugin install launchbar@miclux
 ```
 
-In the Claude Desktop app, mods load per session through hot reloading: copy the plugin folder to `~/.claude/dev-mods/<session-id>/launchbar/` and confirm "Enable hot reloading for this session".
+In the Claude Desktop app, mods load per session through hot reloading from `~/.claude/dev-mods/<session-id>/launchbar/`. The plugin copies itself there on every session start and first prompt (`hooks/install-mod.cjs`); you only confirm "Enable hot reloading for this session".
 
 ## Develop
 
